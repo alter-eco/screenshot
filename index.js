@@ -1,5 +1,4 @@
 const express = require('express');
-const fp = require('find-free-port');
 const fs = require('fs');
 const puppeteer = require('puppeteer');
 const path = require('path');
@@ -7,10 +6,10 @@ const util = require('util');
 
 const app = express();
 
-fp(3000, '127.0.0.1', function(err, freePort) {
-  app.listen(freePort, 'localhost', function () {
-    console.log('AE ScreenShot listening on ' + freePort);
-  });
+const port = 5699;
+
+app.listen(port, 'localhost', function () {
+  console.log('AE ScreenShot listening on ' + port);
 });
 
 app.get('/', function (req, res) {
@@ -23,7 +22,14 @@ app.get('/', function (req, res) {
     });
 });
 
-async function takeScreenShot({ fileName, outputPath, url, viewPortHeight = 768, viewPortWidth = 1024, delay = 2000 }) {
+async function takeScreenShot({
+  fileName,
+  outputPath,
+  url,
+  viewPortHeight = 500,
+  viewPortWidth = 850,
+  delay = 2000
+}) {
   fileName += '.png';
 
   const browser = await puppeteer.launch();
